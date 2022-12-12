@@ -353,6 +353,7 @@ class Trainer:
                 # Train and log
                 self.train(dataloaders['train'], optimizers, schedulers, wrapper, scaler=scaler,
                            aux_dataloader=aux_dataloader)
+                self.post_training([], optimizers, prefixes['train'], wrapper)
 
                 # Validate, save and log
                 if has_validation_dataloader:
@@ -370,6 +371,9 @@ class Trainer:
 
     def train(self, dataloader, optimizers, schedulers, wrapper, scaler=None, aux_dataloader=None):
         """Training loop for each epoch"""
+
+        # print intrinsics in start of every epoch
+        print(wrapper.arch.networks['intrinsics'](torch.tensor([0])))
         # Choose which optimizers to use
         in_optimizers, out_optimizers = self.filter_optimizers(optimizers)
         
@@ -457,6 +461,13 @@ class Trainer:
             dataset_outputs.append(batch_outputs)
         # Get results from validation epoch end
         return wrapper.validation_epoch_end(dataset_outputs, prefixes[mode])
+
+    def post_training(self, output, optimizers, prefixes, wrapper):
+        """Post-processing steps for training"""
+        self.check_and_save(wrapper, output, prefixes)
+        # self.log_losses_and_metrics(output, optimizers)
+        # self.print_logger_and_checkpoint()
+        # self.current_epoch += 1
 
     def post_validation(self, output, optimizers, prefixes, wrapper):
         """Post-processing steps for validation"""

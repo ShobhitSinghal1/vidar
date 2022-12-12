@@ -1,30 +1,31 @@
 default_train:
-    name: [Generic]
-    path: [data/generic]
+    name: [TritonEF]
+    path: [data/TritonEF]
     split: ['']
     context: [-1,1]
     cameras: [[0]]
     labels: []
     extension: [jpg]
-    repeat: [2]
+    repeat: [1]
     augmentation:
         jittering: [0.2, 0.2, 0.2, 0.05]
-        resize: [384, 640]
+        resize: [192, 384]
+        crop_borders: [0, 128, 0, 384]
     dataloader:
         batch_size: 1
         pin_memory: True
-        num_workers: 16
+        num_workers: 12
 default_validation:
-    name: [Generic]
-    path: [data/generic]
+    name: [TritonEF]
+    path: [data/TritonEF]
     split: ['']
     context: []
     cameras: [[0]]
     labels: []
     extension: [jpg]
     augmentation:
-        resize: [384, 640]
+        resize: [192, 384]
     dataloader:
         batch_size: 1
         pin_memory: True
-        num_workers: 16
+        num_workers: 12

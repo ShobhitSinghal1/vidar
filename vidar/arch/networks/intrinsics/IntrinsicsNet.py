@@ -19,6 +19,7 @@ class IntrinsicsNet(BaseNet, ABC):
         self.image_shape = cfg.shape
         self.camera_model = cfg_has(cfg, 'camera_model', 'UCM')
         self.sigmoid_init = nn.Parameter(torch.tensor(self.setup_sigmoid_init(cfg), dtype=torch.float), requires_grad=True)
+        # self.alpha = nn.Parameter(torch.tensor(np.array([0]), dtype=torch.float, requires_grad=False), requires_grad=False)  #
         self.scale = nn.Parameter(torch.tensor(self.setup_scale(cfg), dtype=torch.float, requires_grad=False), requires_grad=False)
         self.offset = nn.Parameter(torch.tensor(self.setup_offset(cfg), dtype=torch.float, requires_grad=False), requires_grad=False)
 
@@ -45,7 +46,7 @@ class IntrinsicsNet(BaseNet, ABC):
             if self.camera_model == 'Pinhole':
                 return np.array([0.0, 0.0, 0.0, 0.0])
             elif self.camera_model == 'UCM':
-                return np.array([0.0, 0.0, 0.0, 0.0, 0.0])
+                return np.array([0.0, 0.0, 0.0, 0.0, 0.0])  #
             elif self.camera_model == 'EUCM':
                 return np.array([0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
             elif self.camera_model == 'DS':
@@ -97,9 +98,11 @@ class IntrinsicsNet(BaseNet, ABC):
     def forward(self, rgb):
         B = rgb.shape[0]
 
+        # self.alpha.requires_grad = False  #
         self.scale.requires_grad = False
         self.offset.requires_grad = False
 
         I = self.sigmoid(self.sigmoid_init) * self.scale + self.offset
+        # I = torch.cat((self.sigmoid(self.sigmoid_init), self.alpha)) * self.scale + self.offset  #
 
         return I.unsqueeze(0).repeat(B,1)

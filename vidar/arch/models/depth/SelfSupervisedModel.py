@@ -26,7 +26,10 @@ class SelfSupervisedModel(BaseModel, ABC):
 
         if not self.use_gt_intrinsics:
             self.camera_model = cfg_has(cfg.networks.intrinsics, 'camera_model', 'UCM')
-            if self.camera_model == 'UCM':
+            if self.camera_model == 'Pinhole':
+                from vidar.arch.networks.layers.fsm.camera_pinhole import Camera
+                self.camera_class = Camera
+            elif self.camera_model == 'UCM':
                 from vidar.geometry.camera_ucm import UCMCamera
                 self.camera_class = UCMCamera
             elif self.camera_model == 'EUCM':

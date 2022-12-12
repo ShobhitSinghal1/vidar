@@ -119,6 +119,9 @@ class FolderTree:
     def get_item(self, idx, return_loc=False):
         """Return filename item given index"""
         idx1, idx2 = self.get_idxs(idx)
+        # print(idx1)
+        # print(idx2)
+        # print(self.folder_tree)
         item = {0: self.folder_tree[idx1][idx2 - self.min_context]}
         if return_loc:
             return item, idx2 - self.min_context

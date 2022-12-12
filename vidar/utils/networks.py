@@ -191,6 +191,7 @@ def save_checkpoint(filename, wrapper, epoch=None):
     epoch : Int
         Training epoch
     """
+    print('save')
     if epoch is None:
         torch.save({
             'state_dict': wrapper.state_dict(),

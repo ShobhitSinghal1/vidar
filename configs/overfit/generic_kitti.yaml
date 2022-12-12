@@ -13,7 +13,7 @@ arch:
         intrinsics:
             file: intrinsics/IntrinsicsNet
             camera_model: 'UCM'
-            shape: [ 384, 640 ]
+            shape: [ 192, 640 ]
     losses:
         reprojection:
             recipe: losses/reprojection|default
@@ -28,12 +28,14 @@ optimizers:
         lr: 0.0002
     intrinsics:
         recipe: optimizers|adam_20_05
-        lr: 0.01
+        lr: 0.001
 datasets:
     train:
-        recipe: datasets/generic|default_train
+        recipe: datasets/generic_kitti|default_train
+        dataloader:
+            batch_size: 2
     validation:
-        recipe: datasets/generic|default_validation
+        recipe: datasets/generic_kitti|default_validation
 checkpoint:
     folder: /data/vidar/checkpoints        # Local folder to store checkpoints
     save_code: False                      # Save repository folder as well

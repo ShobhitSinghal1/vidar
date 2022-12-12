@@ -28,4 +28,7 @@ datasets:
         recipe: datasets/kitti_tiny|train_selfsup_mr
     validation:
         recipe: datasets/kitti_tiny|validation_mr
-
+checkpoint:
+    folder: /data/vidar/checkpoints        # Local folder to store checkpoints
+    save_code: False                      # Save repository folder as well
+    keep_top: 10                           # How many checkpoints should be stored

@@ -179,7 +179,8 @@ class Wrapper(torch.nn.Module, ABC):
 
         return {
             **losses,
-            'metrics': output['metrics']
+            'metrics': output['metrics'],
+            'predictions': output['predictions']
         }
 
     def validation_step(self, batch, epoch):
@@ -212,6 +213,7 @@ class Wrapper(torch.nn.Module, ABC):
     @staticmethod
     def training_epoch_end():
         """Finishes a training epoch (do nothing for now)"""
+        # print(f'Intrinsics: {output["predictions"]["intrinsics"]}')
         return {}
 
     def validation_epoch_end(self, output, prefixes):

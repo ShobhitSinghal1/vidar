@@ -10,5 +10,7 @@ from vidar.utils.setup import setup_datasets
 set_random_seed(42)
 
 cfg = read_config('demos/display_datasets/config.yaml')
-datasets = setup_datasets(cfg.datasets, stack=False)
+datasets = setup_datasets(cfg.datasets, stack=False, verbose=True)
+# print(datasets)
+# print(len(datasets[0]))
 display_sample(datasets[0][sys.argv[1]][0][0], flip=False)
